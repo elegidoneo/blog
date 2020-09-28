@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Tests\Integration\Models\Filters;
+namespace Tests\Unit\Models\Filters;
 
 use App\Models\Filters\UserFilter;
 use App\Models\User;
