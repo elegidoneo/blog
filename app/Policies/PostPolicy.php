@@ -28,6 +28,8 @@ class PostPolicy
      * @param  \App\Models\User  $user
      * @param  \App\Models\Post  $post
      * @return mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * phpcs:disable Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
      */
     public function delete(User $user, Post $post)
     {

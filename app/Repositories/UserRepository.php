@@ -3,7 +3,6 @@
 
 namespace App\Repositories;
 
-
 use App\Events\UpdateUser;
 use App\Models\Filters\Filters;
 use App\Models\Filters\UserFilter;
@@ -72,6 +71,8 @@ class UserRepository extends Repository
 
     /**
      * {@inheritDoc}
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * phpcs:disable Generic.CodeAnalysis.UnusedFunctionParameter
      */
     protected function eventToUpdate($model, array $before, array $after): void
     {

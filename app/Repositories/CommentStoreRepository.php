@@ -3,7 +3,6 @@
 
 namespace App\Repositories;
 
-
 use App\Http\Requests\CommentRequest;
 
 /**
@@ -14,9 +13,10 @@ class CommentStoreRepository extends CommentRepository
 {
     /**
      * CommentRepository constructor.
-     * @param CommentRequest|null $request
+     * @param CommentRequest $request
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod.Found
      */
-    public function __construct(CommentRequest $request = null)
+    public function __construct(CommentRequest $request)
     {
         parent::__construct($request);
     }

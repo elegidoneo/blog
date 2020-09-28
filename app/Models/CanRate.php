@@ -3,7 +3,6 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 
 trait CanRate
@@ -38,7 +37,7 @@ trait CanRate
         );
         return $morphToMany->as("ranting")->withTimestamps()
             ->withPivot("score", "rateable_type")
-            ->wherePivot("rateable_type",  $modelClass)
+            ->wherePivot("rateable_type", $modelClass)
             ->wherePivot("qualifier_type", $this->getMorphClass());
     }
 

@@ -3,7 +3,6 @@
 
 namespace App\Repositories;
 
-
 use App\Models\Filters\Filters;
 use App\Models\Pagination\Pagination;
 use App\Models\User;
@@ -46,9 +45,9 @@ abstract class Repository
 
     /**
      * Repository constructor.
-     * @param Request|null $request
+     * @param Request $request
      */
-    public function __construct(Request $request = null)
+    public function __construct(Request $request)
     {
         $this->request = $request;
     }

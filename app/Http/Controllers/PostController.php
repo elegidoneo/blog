@@ -39,11 +39,12 @@ class PostController extends Controller
     public function store(CreatePostRequest $request, PostImageUpload $postImageUpload, PostRepository $postRepository)
     {
         try {
-            throw_unless($fileName = $postImageUpload->upload(), new UploadException(__("post.file.error")));
+            $fileName = $postImageUpload->upload();
+            throw_unless($fileName, new UploadException(__("post.file.error")));
             $request->merge(["image_url" => $fileName]);
             return new PostResource($postRepository->create());
         } catch (\Throwable $exception) {
-            logger()->error(__METHOD__, compact("exception"));
+            logger()->error(__METHOD__, compact('exception'));
             return response()->json([
                 "error" => $exception->getMessage()
             ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
@@ -81,8 +82,9 @@ class PostController extends Controller
                 $request->user()->can('update', $post),
                 new \Exception(__("post.unauthorized"), JsonResponse::HTTP_UNAUTHORIZED)
             );
+            $fileName = $postImageUpload->upload();
             throw_unless(
-                $fileName = $postImageUpload->upload(),
+                $fileName,
                 new UploadException(__("post.file.error"), JsonResponse::HTTP_INTERNAL_SERVER_ERROR)
             );
             if ($post->image_url !== $fileName) {
@@ -92,7 +94,7 @@ class PostController extends Controller
             $repository->update($post);
             return new PostResource($post);
         } catch (\Throwable $exception) {
-            logger()->error(__METHOD__, compact("exception"));
+            logger()->error(__METHOD__, compact('exception'));
             return response()->json(["error" => $exception->getMessage()], $exception->getCode());
         }
     }
@@ -116,7 +118,7 @@ class PostController extends Controller
                 "message" => __("post.delete"),
             ]);
         } catch (\Throwable $exception) {
-            logger()->error(__METHOD__, compact("exception"));
+            logger()->error(__METHOD__, compact('exception'));
             return response()->json(["error" => $exception->getMessage()], $exception->getCode());
         }
     }
