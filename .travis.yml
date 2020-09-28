@@ -19,8 +19,6 @@ stages:
     if: type = pull_request
   - name: Unit Tests
     if: type = pull_request
-  - name: Integration Tests
-    if: type = pull_request
   - name: Feature Tests
     if: type = pull_request
 
@@ -38,11 +36,6 @@ jobs:
       before_script: .travis/before_script.sh
       script: vendor/bin/phpunit --testsuite "Unit Tests"
       after_success: bash <(curl -s https://codecov.io/bash)
-    - stage: Integration Tests
-      php: '7.4'
-      env: RUTA=$(pwd)
-      before_script: .travis/before_script.sh
-      script: vendor/bin/phpunit --testsuite "Integration Tests"
     - stage: Feature Tests
       php: '7.4'
       env: RUTA=$(pwd)
