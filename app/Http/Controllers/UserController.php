@@ -9,19 +9,33 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Repositories\UserStoreRepository;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\UnauthorizedException;
 
 class UserController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
      * @param UserRepository $repository
-     * @return UserCollection
+     * @return UserCollection|JsonResponse
+     * @throws \Throwable
      */
     public function index(UserRepository $repository)
     {
-        return new UserCollection($repository->all());
+        try {
+            throw_unless(
+                app(Request::class)->user()->isAdmin(),
+                new UnauthorizedException(__("auth.unauthorized"), JsonResponse::HTTP_UNAUTHORIZED)
+            );
+            return new UserCollection($repository->all());
+        } catch (\Throwable $exception) {
+            logger()->error(__METHOD__, compact('exception'));
+            return response()->json(["error" => $exception->getMessage()], $exception->getCode());
+        }
     }
 
     /**
@@ -39,11 +53,20 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\User  $user
-     * @return UserResource
+     * @return UserResource|JsonResponse
      */
     public function show(User $user)
     {
-        return new UserResource($user);
+        try {
+            throw_unless(
+                app(Request::class)->user()->can('view', $user),
+                new UnauthorizedException(__("auth.unauthorized"), JsonResponse::HTTP_UNAUTHORIZED)
+            );
+            return new UserResource($user);
+        } catch (\Throwable $exception) {
+            logger()->error(__METHOD__, compact('exception'));
+            return response()->json(["error" => $exception->getMessage()], $exception->getCode());
+        }
     }
 
     /**
@@ -52,12 +75,21 @@ class UserController extends Controller
      * @param UserUpdateRequest $request
      * @param \App\Models\User $user
      * @param UserRepository $userRepository
-     * @return UserResource
+     * @return UserResource|JsonResponse
      */
     public function update(UserUpdateRequest $request, User $user, UserRepository $userRepository)
     {
-        return $request->has("password") ?
-            null : new UserResource($userRepository->update($user));
+        try {
+            throw_unless(
+                app(Request::class)->user()->can('update', $user),
+                new UnauthorizedException(__("auth.unauthorized"), JsonResponse::HTTP_UNAUTHORIZED)
+            );
+            return $request->has("password") ?
+                null : new UserResource($userRepository->update($user));
+        } catch (\Throwable $exception) {
+            logger()->error(__METHOD__, compact('exception'));
+            return response()->json(["error" => $exception->getMessage()], $exception->getCode());
+        }
     }
 
     /**
@@ -69,9 +101,18 @@ class UserController extends Controller
      */
     public function destroy(User $user, UserRepository $userRepository)
     {
-        $model = $userRepository->destroy($user);
-        return response()->json([
-            "message" => __("user.delete", ["name" => $model["name"]]),
-        ]);
+        try {
+            throw_unless(
+                app(Request::class)->user()->can('delete', $user),
+                new UnauthorizedException(__("auth.unauthorized"), JsonResponse::HTTP_UNAUTHORIZED)
+            );
+            $model = $userRepository->destroy($user);
+            return response()->json([
+                "message" => __("user.delete", ["name" => $model["name"]]),
+            ]);
+        } catch (\Throwable $exception) {
+            logger()->error(__METHOD__, compact('exception'));
+            return response()->json(["error" => $exception->getMessage()], $exception->getCode());
+        }
     }
 }

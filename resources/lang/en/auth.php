@@ -17,4 +17,5 @@ return [
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'success' => 'login successfully.',
     'logout' => 'The session was closed successfully.',
+    "unauthorized" => "You are not authorized.",
 ];
