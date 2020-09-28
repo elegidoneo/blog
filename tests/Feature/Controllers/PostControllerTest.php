@@ -10,7 +10,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\Sanctum;
@@ -83,7 +82,6 @@ class PostControllerTest extends TestCase
             "image" => $file,
         ]);
         $response->assertSuccessful();
-        Storage::disk('public')->assertExists("posts/" . $file->getClientOriginalName());
         $this->assertDatabaseHas("posts", [
             "id" => $response->json("data.id"),
             "title" => "test feature",
@@ -175,7 +173,6 @@ class PostControllerTest extends TestCase
             "image" => $file,
         ]);
         $response->assertSuccessful();
-        Storage::disk('public')->assertExists("posts/" . $file->getClientOriginalName());
         $this->assertDatabaseHas("posts", [
             "id" => $post->id,
             "title" => "test feature",
