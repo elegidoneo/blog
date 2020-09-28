@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-cp .travis/.env .env
 if [[ -v DATABASE_NAME ]];
 then
     echo -e "Creating database...\n"
@@ -11,7 +10,7 @@ then
     echo -e "Add github token...\n"
     composer config github-oauth.github.com ${GITHUB_TOKEN}
 fi
-
+cp .travis/.env .env
 COMPOSER_MEMORY_LIMIT=-1 composer install
 mkdir -p build/logs
 mkdir -p build/reports/clover
