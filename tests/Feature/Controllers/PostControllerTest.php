@@ -75,7 +75,7 @@ class PostControllerTest extends TestCase
         Sanctum::actingAs(
             $user = factory(User::class)->create()
         );
-        Storage::fake('test');
+        Storage::fake('public');
         $file = UploadedFile::fake()->image('test.jpg');
         $response = $this->postJson("/api/post", [
             "title" => "test feature",
@@ -101,7 +101,7 @@ class PostControllerTest extends TestCase
         Sanctum::actingAs(
             factory(User::class)->make()
         );
-        Storage::fake('test');
+        Storage::fake('public');
         $file = UploadedFile::fake()->image('test.jpg');
         $response = $this->postJson("/api/post", [
             "title" => 123,
@@ -139,7 +139,7 @@ class PostControllerTest extends TestCase
         Sanctum::actingAs(
             factory(User::class)->make()
         );
-        Storage::fake('test');
+        Storage::fake('public');
         $file = UploadedFile::fake()->image('test.jpg');
         \Mockery::mock(Request::class);
         $this->mock(PostImageUpload::class, function (MockInterface $mock) {
@@ -195,7 +195,9 @@ class PostControllerTest extends TestCase
         );
         Storage::fake('public');
         $file = UploadedFile::fake()->image('test.jpg');
-        $post = factory(Post::class)->create();
+        $post = factory(Post::class)->create([
+            "user_id" => factory(User::class)->create()->id
+        ]);
         $response = $this->patchJson("/api/post/" . $post->id, [
             "title" => "test feature",
             "body" => "Hello World",
