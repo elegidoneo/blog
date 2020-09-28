@@ -19,7 +19,7 @@ class UserControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that only administrators can see the list of users without paging
      */
     public function caseOne()
     {
@@ -34,7 +34,7 @@ class UserControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check to show the paginated user list
      */
     public function caseTwo()
     {
@@ -51,7 +51,7 @@ class UserControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that the filters work
      */
     public function caseThree()
     {
@@ -68,7 +68,7 @@ class UserControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that the user is saved successfully
      */
     public function caseFour()
     {
@@ -90,7 +90,7 @@ class UserControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that the validation works
      */
     public function caseFive()
     {
@@ -108,7 +108,7 @@ class UserControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that user information can be seen
      */
     public function caseSix()
     {
@@ -122,7 +122,7 @@ class UserControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that a user can be edited correctly
      */
     public function caseSeven()
     {
@@ -156,7 +156,7 @@ class UserControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that another user cannot edit another user's information
      */
     public function caseNine()
     {
@@ -171,7 +171,7 @@ class UserControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that your information cannot be seen between users
      */
     public function caseTen()
     {
@@ -186,7 +186,7 @@ class UserControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that between users cannot edit information
      */
     public function caseEleven()
     {
@@ -205,7 +205,7 @@ class UserControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that other users cannot see the user list
      */
     public function caseTwelve()
     {

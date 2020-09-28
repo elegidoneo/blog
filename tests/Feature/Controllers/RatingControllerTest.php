@@ -15,7 +15,7 @@ class RatingControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check when the post is rated
      */
    public function caseOne()
    {
@@ -32,7 +32,7 @@ class RatingControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check the average data of the post
      */
    public function caseTwo()
    {
@@ -49,7 +49,7 @@ class RatingControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check when they do not send error evaluation
      */
     public function caseThree()
     {

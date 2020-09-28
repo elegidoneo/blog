@@ -17,7 +17,7 @@ class CommentControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that all comments are listed without pager
      */
     public function caseOne()
     {
@@ -31,7 +31,7 @@ class CommentControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that paginated comments are listed
      */
     public function caseTwo()
     {
@@ -46,7 +46,7 @@ class CommentControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Filters are checked to see if they work
      */
     public function caseThree()
     {
@@ -63,7 +63,7 @@ class CommentControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that you save the comment successfully
      */
     public function caseFour()
     {
@@ -84,7 +84,7 @@ class CommentControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check when not all the information is sent to save the error comment
      */
     public function caseFive()
     {
@@ -102,7 +102,7 @@ class CommentControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that it shows the comment information
      */
     public function caseSix()
     {
@@ -117,7 +117,7 @@ class CommentControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that the comment can be edited
      */
     public function caseSeven()
     {
@@ -136,7 +136,7 @@ class CommentControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that other users cannot delete the comment
      */
     public function caseEight()
     {
@@ -150,7 +150,7 @@ class CommentControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that only administrators can delete the comment
      */
     public function caseNine()
     {

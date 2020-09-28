@@ -22,7 +22,7 @@ class PostControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that you can list the posts without paging
      */
     public function caseOne()
     {
@@ -36,7 +36,7 @@ class PostControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that paginated posts are listed
      */
     public function caseTwo()
     {
@@ -51,7 +51,7 @@ class PostControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check the filters that work
      */
     public function caseThree()
     {
@@ -66,7 +66,7 @@ class PostControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that the post and main image are saved correctly
      */
     public function caseFour()
     {
@@ -75,7 +75,7 @@ class PostControllerTest extends TestCase
             $user = factory(User::class)->create()
         );
         Storage::fake('public');
-        $file = UploadedFile::fake()->image('test.jpg');
+        $file = UploadedFile::fake()->image('test.jpg', "600", "400");
         $response = $this->postJson("/api/post", [
             "title" => "test feature",
             "body" => "Hello World",
@@ -91,7 +91,7 @@ class PostControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox It is checked that it validates the data before saving a post
      */
     public function caseFive()
     {
@@ -100,7 +100,7 @@ class PostControllerTest extends TestCase
             factory(User::class)->make()
         );
         Storage::fake('public');
-        $file = UploadedFile::fake()->image('test.jpg');
+        $file = UploadedFile::fake()->image('test.jpg', "600", "400");
         $response = $this->postJson("/api/post", [
             "title" => 123,
             "body" => "Hello World",
@@ -114,7 +114,7 @@ class PostControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that it shows the post information
      */
     public function caseSix()
     {
@@ -129,7 +129,7 @@ class PostControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox How to test when there is an error when uploading the image
      */
     public function caseSeven()
     {
@@ -138,7 +138,7 @@ class PostControllerTest extends TestCase
             factory(User::class)->make()
         );
         Storage::fake('public');
-        $file = UploadedFile::fake()->image('test.jpg');
+        $file = UploadedFile::fake()->image('test.jpg', "600", "400");
         \Mockery::mock(Request::class);
         $this->mock(PostImageUpload::class, function (MockInterface $mock) {
             $mock->shouldReceive("upload")->andReturnFalse();
@@ -154,7 +154,7 @@ class PostControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that the post is edited correctly
      */
     public function caseEight()
     {
@@ -182,7 +182,7 @@ class PostControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check when someone else tries to edit the authorization error message
      */
     public function caseNine()
     {
@@ -206,7 +206,7 @@ class PostControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check when a common user tries to delete a post
      */
     public function caseTen()
     {
@@ -222,7 +222,7 @@ class PostControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check when an administrator deletes a post correctly
      */
     public function caseEleven()
     {

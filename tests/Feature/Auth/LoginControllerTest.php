@@ -17,7 +17,7 @@ class LoginControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that you log in correctly
      */
     public function caseOne()
     {
@@ -29,11 +29,12 @@ class LoginControllerTest extends TestCase
         $response->assertJsonFragment([
             "message" => __("auth.success"),
         ]);
+        $this->assertAuthenticatedAs(\auth()->user());
     }
 
     /**
      * @test
-     * @testdox
+     * @testdox Check that you log out correctly
      */
     public function caseTwo()
     {
@@ -47,7 +48,7 @@ class LoginControllerTest extends TestCase
 
     /**
      * @test
-     * @testdox
+     * @testdox Check when correct data is entered do not log in
      */
     public function caseThree()
     {
