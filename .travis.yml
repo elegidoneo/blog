@@ -35,7 +35,6 @@ jobs:
     - stage: Unit Tests
       php: '7.4'
       env: CODECOV_TOKEN="f747cff8-3beb-4c5e-9636-000cd14526ee" RUTA=$(pwd)
-      before_install:  .travis/before_install.sh
       before_script: .travis/before_script.sh
       script: vendor/bin/phpunit --testsuite "Unit Tests"
       after_success: bash <(curl -s https://codecov.io/bash)
