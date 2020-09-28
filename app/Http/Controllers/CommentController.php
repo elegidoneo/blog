@@ -77,7 +77,7 @@ class CommentController extends Controller
                 "message" => __("comment.delete"),
             ]);
         } catch (\Throwable $exception) {
-            logger()->error(__METHOD__, compact("exception"));
+            logger()->error(__METHOD__, compact('exception'));
             return response()->json(["error" => $exception->getMessage()], $exception->getCode());
         }
     }

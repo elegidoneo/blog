@@ -33,6 +33,7 @@ class Handler extends ExceptionHandler
      * @return void
      *
      * @throws \Throwable
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod.Found
      */
     public function report(Throwable $exception)
     {
@@ -47,6 +48,7 @@ class Handler extends ExceptionHandler
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \Throwable
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod.Found
      */
     public function render($request, Throwable $exception)
     {

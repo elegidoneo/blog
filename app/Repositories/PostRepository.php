@@ -80,7 +80,6 @@ class PostRepository extends Repository
      */
     protected function eventToCreate($model): void
     {
-
     }
 
     /**

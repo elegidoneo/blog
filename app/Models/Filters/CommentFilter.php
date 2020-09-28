@@ -3,7 +3,6 @@
 
 namespace App\Models\Filters;
 
-
 class CommentFilter extends Filters
 {
     protected $columnsFilter = [

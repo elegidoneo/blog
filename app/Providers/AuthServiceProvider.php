@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Policies\CommentPolicy;
 use App\Policies\PostPolicy;
 use App\Models\User;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -20,6 +21,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Post::class => PostPolicy::class,
         Comment::class => CommentPolicy::class,
+        User::class => UserPolicy::class,
     ];
 
     /**

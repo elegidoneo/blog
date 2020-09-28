@@ -3,7 +3,6 @@
 
 namespace App\Models\Pagination;
 
-
 use App\Contracts\Models\PaginationInterface;
 
 class CommentPager extends Pagination implements PaginationInterface

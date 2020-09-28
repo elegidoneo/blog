@@ -1,0 +1,43 @@
+os: linux
+dist: xenial
+language: php
+php:
+  - '7.4'
+
+addons:
+  mariadb: '10.2'
+  apt:
+    packages:
+    - awscli
+
+env:
+  global:
+    - DATETIME=$(date +"%Y%m%d%H%M%S")
+
+stages:
+  - name: Code Quality
+    if: type = pull_request
+  - name: Unit Tests
+    if: type = pull_request
+  - name: Feature Tests
+    if: type = pull_request
+
+script: skip
+
+jobs:
+  include:
+    - stage: Code Quality
+      php: '7.4'
+      before_script: .travis/before_script.sh
+      script: vendor/bin/phpcs . && vendor/bin/phpmd app,config,routes text phpmd.xml
+    - stage: Unit Tests
+      php: '7.4'
+      env: CODECOV_TOKEN="cd953aeb-19a9-4a43-bfe8-2f882850e06f" RUTA=$(pwd)
+      before_script: .travis/before_script.sh
+      script: vendor/bin/phpunit --testsuite "Unit Tests"
+      after_success: bash <(curl -s https://codecov.io/bash)
+    - stage: Feature Tests
+      php: '7.4'
+      env: RUTA=$(pwd)
+      before_script: .travis/before_script.sh
+      script: vendor/bin/phpunit --testsuite "Feature Tests"

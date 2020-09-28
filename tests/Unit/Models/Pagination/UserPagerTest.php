@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Tests\Integration\Models\Pagination;
+namespace Tests\Unit\Models\Pagination;
 
 
 use App\Contracts\Models\PaginationInterface;

@@ -9,9 +9,10 @@ class UserStoreRepository extends UserRepository
 {
     /**
      * Repository constructor.
-     * @param UserStoreRequest|null $request
+     * @param UserStoreRequest $request
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod.Found
      */
-    public function __construct(UserStoreRequest $request = null)
+    public function __construct(UserStoreRequest $request)
     {
         parent::__construct($request);
     }

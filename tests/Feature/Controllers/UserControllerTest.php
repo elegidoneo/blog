@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Validation\UnauthorizedException;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -23,9 +24,8 @@ class UserControllerTest extends TestCase
     public function caseOne()
     {
         Sanctum::actingAs(
-            factory(User::class)->make()
+            $user = factory(User::class)->states("administrator")->create()
         );
-        $user = factory(User::class)->create();
         $user->createToken("test");
         $response = $this->getJson("/api/user");
         $response->assertSuccessful();
@@ -39,7 +39,7 @@ class UserControllerTest extends TestCase
     public function caseTwo()
     {
         Sanctum::actingAs(
-            $user = factory(User::class)->create()
+            $user = factory(User::class)->states("administrator")->create()
         );
         factory(User::class, 20)->create();
         $user->createToken("test");
@@ -56,7 +56,7 @@ class UserControllerTest extends TestCase
     public function caseThree()
     {
         Sanctum::actingAs(
-            $user = factory(User::class)->create()
+            $user = factory(User::class)->states("administrator")->create()
         );
         factory(User::class, 20)->create();
         $user->createToken("test");
@@ -152,5 +152,69 @@ class UserControllerTest extends TestCase
         $this->assertSoftDeleted("users", [
             "id" => $user->id,
         ]);
+    }
+
+    /**
+     * @test
+     * @testdox
+     */
+    public function caseNine()
+    {
+        Sanctum::actingAs(
+            $user = factory(User::class)->create()
+        );
+        $user->createToken("test");
+        $response = $this->getJson("/api/user");
+        $response->assertStatus(JsonResponse::HTTP_UNAUTHORIZED);
+        $response->assertJsonFragment(["error" => __("auth.unauthorized")]);
+    }
+
+    /**
+     * @test
+     * @testdox
+     */
+    public function caseTen()
+    {
+        Sanctum::actingAs(
+            factory(User::class)->create()
+        );
+        $user = factory(User::class)->create();
+        $response = $this->getJson("/api/user/" . $user->id);
+        $response->assertStatus(JsonResponse::HTTP_UNAUTHORIZED);
+        $response->assertJsonFragment(["error" => __("auth.unauthorized")]);
+    }
+
+    /**
+     * @test
+     * @testdox
+     */
+    public function caseEleven()
+    {
+        Notification::fake();
+        Sanctum::actingAs(
+            factory(User::class)->create()
+        );
+        $user = factory(User::class)->create();
+        $response = $this->patchJson("/api/user/" . $user->id, [
+            "name" => "test"
+        ]);
+        $response->assertStatus(JsonResponse::HTTP_UNAUTHORIZED);
+        $response->assertJsonFragment(["error" => __("auth.unauthorized")]);
+        Notification::assertNothingSent();
+    }
+
+    /**
+     * @test
+     * @testdox
+     */
+    public function caseTwelve()
+    {
+        Sanctum::actingAs(
+            factory(User::class)->create()
+        );
+        $user = factory(User::class)->create();
+        $response = $this->deleteJson("/api/user/" . $user->id);
+        $response->assertStatus(JsonResponse::HTTP_UNAUTHORIZED);
+        $response->assertJsonFragment(["error" => __("auth.unauthorized")]);
     }
 }

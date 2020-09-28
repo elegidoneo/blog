@@ -3,7 +3,6 @@
 
 namespace App\Models;
 
-
 trait CanBeRated
 {
     /**
@@ -21,8 +20,7 @@ trait CanBeRated
      */
     public function qualifiers(string $model = null)
     {
-        $modelClass = $model ? (new $model)->getMorphClass() : $this->getMorphClass();
-
+        $modelClass = $this->modelClass($model);
         return $this->morphToMany(
             $modelClass,
             'rateable',
@@ -32,5 +30,14 @@ trait CanBeRated
         )->withPivot("score", "qualifier_type")
             ->wherePivot("qualifier_type", $modelClass)
             ->wherePivot("rateable_type", $this->getMorphClass());
+    }
+
+    /**
+     * @param null $model
+     * @return mixed
+     */
+    private function modelClass($model = null)
+    {
+        return $model ? (new $model)->getMorphClass() : $this->getMorphClass();
     }
 }

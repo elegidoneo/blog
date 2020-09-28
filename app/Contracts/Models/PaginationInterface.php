@@ -3,7 +3,6 @@
 
 namespace App\Contracts\Models;
 
-
 use App\Models\Pagination\Pagination;
 use Illuminate\Database\Eloquent\Builder;
 

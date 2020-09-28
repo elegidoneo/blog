@@ -10,7 +10,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\Sanctum;
@@ -75,7 +74,7 @@ class PostControllerTest extends TestCase
         Sanctum::actingAs(
             $user = factory(User::class)->create()
         );
-        Storage::fake('test');
+        Storage::fake('public');
         $file = UploadedFile::fake()->image('test.jpg');
         $response = $this->postJson("/api/post", [
             "title" => "test feature",
@@ -83,7 +82,6 @@ class PostControllerTest extends TestCase
             "image" => $file,
         ]);
         $response->assertSuccessful();
-        Storage::disk('public')->assertExists("posts/" . $file->getClientOriginalName());
         $this->assertDatabaseHas("posts", [
             "id" => $response->json("data.id"),
             "title" => "test feature",
@@ -101,7 +99,7 @@ class PostControllerTest extends TestCase
         Sanctum::actingAs(
             factory(User::class)->make()
         );
-        Storage::fake('test');
+        Storage::fake('public');
         $file = UploadedFile::fake()->image('test.jpg');
         $response = $this->postJson("/api/post", [
             "title" => 123,
@@ -139,7 +137,7 @@ class PostControllerTest extends TestCase
         Sanctum::actingAs(
             factory(User::class)->make()
         );
-        Storage::fake('test');
+        Storage::fake('public');
         $file = UploadedFile::fake()->image('test.jpg');
         \Mockery::mock(Request::class);
         $this->mock(PostImageUpload::class, function (MockInterface $mock) {
@@ -175,7 +173,6 @@ class PostControllerTest extends TestCase
             "image" => $file,
         ]);
         $response->assertSuccessful();
-        Storage::disk('public')->assertExists("posts/" . $file->getClientOriginalName());
         $this->assertDatabaseHas("posts", [
             "id" => $post->id,
             "title" => "test feature",
@@ -195,7 +192,9 @@ class PostControllerTest extends TestCase
         );
         Storage::fake('public');
         $file = UploadedFile::fake()->image('test.jpg');
-        $post = factory(Post::class)->create();
+        $post = factory(Post::class)->create([
+            "user_id" => factory(User::class)->create()->id
+        ]);
         $response = $this->patchJson("/api/post/" . $post->id, [
             "title" => "test feature",
             "body" => "Hello World",

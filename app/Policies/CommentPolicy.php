@@ -16,6 +16,8 @@ class CommentPolicy
      * @param \App\Models\User $user
      * @param Comment $comment
      * @return mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * phpcs:disable Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
      */
     public function delete(User $user, Comment $comment)
     {

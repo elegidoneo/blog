@@ -3,7 +3,6 @@
 
 namespace App\Models\Filters;
 
-
 class PostFilter extends Filters
 {
     /**
