@@ -51,11 +51,20 @@ class CommentController extends Controller
      *
      * @param CommentUpdateRepository $repository
      * @param Comment $comment
-     * @return CommentResource
+     * @return CommentResource|JsonResponse
      */
     public function update(CommentUpdateRepository $repository, Comment $comment)
     {
-        return new CommentResource($repository->update($comment));
+        try {
+            throw_unless(
+                app(Request::class)->user()->can('update', $comment),
+                new \Exception(__("comment.unauthorized"), JsonResponse::HTTP_UNAUTHORIZED)
+            );
+            return new CommentResource($repository->update($comment));
+        } catch (\Throwable $exception) {
+            logger()->error(__METHOD__, compact('exception'));
+            return response()->json(["error" => $exception->getMessage()], $exception->getCode());
+        }
     }
 
     /**

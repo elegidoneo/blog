@@ -4,11 +4,14 @@
 namespace Tests\Unit\Models;
 
 
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Rating;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Mockery\Mock;
+use Mockery\MockInterface;
 use Tests\TestCase;
 
 class RatingTest extends TestCase
