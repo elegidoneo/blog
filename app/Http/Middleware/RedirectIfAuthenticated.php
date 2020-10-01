@@ -16,6 +16,7 @@ class RedirectIfAuthenticated
      * @param  string|null  $guard
      * @return mixed
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * phpcs:disable Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
      */
     public function handle($request, Closure $next, $guard = null)
     {
