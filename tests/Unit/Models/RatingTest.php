@@ -10,6 +10,7 @@ use App\Models\Rating;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\DB;
 use Mockery\Mock;
 use Mockery\MockInterface;
 use Tests\TestCase;
@@ -64,5 +65,25 @@ class RatingTest extends TestCase
         $user2->rate($post, 10);
 
         $this->assertEquals(7.5, $post->averageRating(User::class));
+    }
+
+    /**
+     * @test
+     * @testdox
+     */
+    public function caseFour()
+    {
+        $post = factory(Post::class)->create();
+        $user = factory(User::class)->create();
+
+        Rating::query()->create([
+            "score" => 5,
+            "rateable_type" =>  get_class($post),
+            "rateable_id" => $post->id,
+            "qualifier_type" => get_class($user),
+            "qualifier_id" => $user->id
+        ]);
+
+        $this->assertFalse($user->rate($post, 5));
     }
 }

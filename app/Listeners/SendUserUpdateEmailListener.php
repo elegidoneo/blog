@@ -7,7 +7,7 @@ use App\Notifications\UpdateUserNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SendUserUpdateEmail
+class SendUserUpdateEmailListener
 {
     /**
      * Handle the event.
@@ -17,6 +17,6 @@ class SendUserUpdateEmail
      */
     public function handle(UpdateUser $event)
     {
-        $event->user->notify(new UpdateUserNotification);
+        $event->user->notify(new UpdateUserNotification($event->before, $event->after));
     }
 }

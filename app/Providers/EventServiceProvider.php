@@ -30,7 +30,7 @@ class EventServiceProvider extends ServiceProvider
             DeleteToken::class,
         ],
         UpdateUser::class => [
-            \App\Listeners\SendUserUpdateEmail::class,
+            \App\Listeners\SendUserUpdateEmailListener::class,
         ],
     ];
 }
