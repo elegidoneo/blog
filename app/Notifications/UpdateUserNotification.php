@@ -12,13 +12,25 @@ class UpdateUserNotification extends Notification
     use Queueable;
 
     /**
+     * @var array
+     */
+    private $before;
+
+    /**
+     * @var array
+     */
+    private $after;
+
+    /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param array $before
+     * @param array $after
      */
-    public function __construct()
+    public function __construct(array $before, array $after)
     {
-        //
+        $this->before = $before;
+        $this->after = $after;
     }
 
     /**
@@ -42,23 +54,7 @@ class UpdateUserNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->line('The introduction to the notification.' . $this->id)
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
+        return resolve(MailMessage::class)
+            ->view("emails.user-update", ["before" => $this->before, "after" => $this->after]);
     }
 }

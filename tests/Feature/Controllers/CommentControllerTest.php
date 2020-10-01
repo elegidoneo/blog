@@ -125,7 +125,9 @@ class CommentControllerTest extends TestCase
         Sanctum::actingAs(
             $user = factory(User::class)->create()
         );
-        $comment = factory(Comment::class)->create();
+        $comment = factory(Comment::class)->create([
+            "user_id" => $user->id
+        ]);
         $response = $this->patchJson("/api/comment/" . $comment->id, [
             "comment" => "test"
         ]);
@@ -162,5 +164,22 @@ class CommentControllerTest extends TestCase
         ]);
         $response = $this->deleteJson("/api/comment/" . $comment->id);
         $response->assertJsonFragment(["message" => __("comment.delete")]);
+    }
+
+    /**
+     * @test
+     * @testdox Check that other users cannot edit the comment
+     */
+    public function caseTen()
+    {
+        Notification::fake();
+        Sanctum::actingAs(
+            factory(User::class)->create()
+        );
+        $comment = factory(Comment::class)->create();
+        $response = $this->patchJson("/api/comment/" . $comment->id, [
+            "comment" => "test"
+        ]);
+        $response->assertJsonFragment(["error" => __("comment.unauthorized")]);
     }
 }

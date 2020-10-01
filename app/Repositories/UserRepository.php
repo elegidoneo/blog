@@ -76,7 +76,9 @@ class UserRepository extends Repository
      */
     protected function eventToUpdate($model, array $before, array $after): void
     {
-        event(new UpdateUser($model));
+        if (!empty(array_diff($before, $after))) {
+            event(new UpdateUser($model, $before, $after));
+        }
     }
 
     /**
