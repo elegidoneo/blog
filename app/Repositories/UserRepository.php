@@ -86,7 +86,7 @@ class UserRepository extends Repository
      */
     protected function eventToCreate($model): void
     {
-        event(new Registered($model));
+        //event(new Registered($model));
     }
 
     /**
@@ -94,6 +94,6 @@ class UserRepository extends Repository
      */
     protected function extraData(): array
     {
-        return [];
+        return ["active" => true];
     }
 }

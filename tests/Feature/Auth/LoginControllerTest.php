@@ -5,10 +5,7 @@ namespace Tests\Feature\Auth;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Laravel\Sanctum\Sanctum;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class LoginControllerTest extends TestCase
@@ -29,7 +26,6 @@ class LoginControllerTest extends TestCase
         $response->assertJsonFragment([
             "message" => __("auth.success"),
         ]);
-        $this->assertAuthenticatedAs(\auth()->user());
     }
 
     /**
@@ -39,8 +35,7 @@ class LoginControllerTest extends TestCase
     public function caseTwo()
     {
         $user = factory(User::class)->states("active")->create();
-        $user->createToken("test");
-        Sanctum::actingAs($user);
+        Passport::actingAs($user);
         $response = $this->getJson('/api/logout');
         $response->assertSuccessful();
         $response->assertJson(["message" => __("auth.logout")]);

@@ -27,6 +27,10 @@ class Post extends Model
         "created_at" => "datetime:Y-m-d",
     ];
 
+    protected $appends = [
+        "average"
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -41,6 +45,22 @@ class Post extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function ratings()
+    {
+        return $this->morphMany(Rating::class, 'rateable');
+    }
+
+    /**
+     * @return float
+     */
+    public function getAverageAttribute()
+    {
+        return $this->averageRating(User::class);
     }
 
     /**

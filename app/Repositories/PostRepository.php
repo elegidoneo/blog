@@ -64,7 +64,9 @@ class PostRepository extends Repository
      */
     protected function withModel()
     {
-        return $this->getModel()->query()->with("user");
+        return $this->getModel()->query()
+            ->withCount('comments')
+            ->with(["user", "ratings", "comments"]);
     }
 
     /**

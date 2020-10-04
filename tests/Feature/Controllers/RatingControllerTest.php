@@ -6,7 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\JsonResponse;
-use Laravel\Sanctum\Sanctum;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class RatingControllerTest extends TestCase
@@ -19,7 +19,7 @@ class RatingControllerTest extends TestCase
      */
    public function caseOne()
    {
-       Sanctum::actingAs(
+       Passport::actingAs(
            $user = factory(User::class)->states("administrator")->create()
        );
        $post = factory(Post::class)->create();
@@ -36,7 +36,7 @@ class RatingControllerTest extends TestCase
      */
    public function caseTwo()
    {
-       Sanctum::actingAs(
+       Passport::actingAs(
            $user = factory(User::class)->states("administrator")->create()
        );
        $user2 = factory(User::class)->create();
@@ -53,7 +53,7 @@ class RatingControllerTest extends TestCase
      */
     public function caseThree()
     {
-        Sanctum::actingAs(
+        Passport::actingAs(
             $user = factory(User::class)->states("administrator")->create()
         );
         $post = factory(Post::class)->create();

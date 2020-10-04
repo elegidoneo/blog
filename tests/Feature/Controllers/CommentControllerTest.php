@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Notification;
-use Laravel\Sanctum\Sanctum;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class CommentControllerTest extends TestCase
@@ -21,7 +21,7 @@ class CommentControllerTest extends TestCase
      */
     public function caseOne()
     {
-        Sanctum::actingAs(
+        Passport::actingAs(
             factory(User::class)->make()
         );
         $response = $this->getJson("/api/comment");
@@ -35,7 +35,7 @@ class CommentControllerTest extends TestCase
      */
     public function caseTwo()
     {
-        Sanctum::actingAs(
+        Passport::actingAs(
             factory(User::class)->make()
         );
         $response = $this->getJson("/api/comment?pages=20");
@@ -50,7 +50,7 @@ class CommentControllerTest extends TestCase
      */
     public function caseThree()
     {
-        Sanctum::actingAs(
+        Passport::actingAs(
             $user = factory(User::class)->create()
         );
         factory(Comment::class)->create([
@@ -68,7 +68,7 @@ class CommentControllerTest extends TestCase
     public function caseFour()
     {
         Notification::fake();
-        Sanctum::actingAs(
+        Passport::actingAs(
             $user = factory(User::class)->create()
         );
         $response = $this->postJson("/api/comment", [
@@ -89,7 +89,7 @@ class CommentControllerTest extends TestCase
     public function caseFive()
     {
         Notification::fake();
-        Sanctum::actingAs(
+        Passport::actingAs(
             factory(User::class)->make()
         );
         $response = $this->postJson("/api/comment", [
@@ -106,7 +106,7 @@ class CommentControllerTest extends TestCase
      */
     public function caseSix()
     {
-        Sanctum::actingAs(
+        Passport::actingAs(
             factory(User::class)->create()
         );
         $comment = factory(Comment::class)->create();
@@ -122,7 +122,7 @@ class CommentControllerTest extends TestCase
     public function caseSeven()
     {
         Notification::fake();
-        Sanctum::actingAs(
+        Passport::actingAs(
             $user = factory(User::class)->create()
         );
         $comment = factory(Comment::class)->create([
@@ -142,7 +142,7 @@ class CommentControllerTest extends TestCase
      */
     public function caseEight()
     {
-        Sanctum::actingAs(
+        Passport::actingAs(
             $user = factory(User::class)->create()
         );
         $comment = factory(Comment::class)->create();
@@ -156,7 +156,7 @@ class CommentControllerTest extends TestCase
      */
     public function caseNine()
     {
-        Sanctum::actingAs(
+        Passport::actingAs(
             $user = factory(User::class)->states("administrator")->create()
         );
         $comment = factory(Comment::class)->create([
@@ -173,7 +173,7 @@ class CommentControllerTest extends TestCase
     public function caseTen()
     {
         Notification::fake();
-        Sanctum::actingAs(
+        Passport::actingAs(
             factory(User::class)->create()
         );
         $comment = factory(Comment::class)->create();

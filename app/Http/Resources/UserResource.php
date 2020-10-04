@@ -23,7 +23,6 @@ class UserResource extends JsonResource
             "email" => $this->email,
             "admin" => $this->isAdmin(),
             "active" => boolval($this->active),
-            "token" => $this->extraUserData($this),
         ];
     }
 }

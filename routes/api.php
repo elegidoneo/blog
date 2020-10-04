@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,9 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::post("/login", "Auth\LoginController@login");
 Route::post("/user", "UserController@store");
-Route::middleware('auth:sanctum')->group(function () {
+Route::get("/post", "PostController@index");
+Route::middleware('auth:api')->group(function () {
     Route::apiResource("/user", "UserController")->except("store");
-    Route::apiResource("/post", "PostController");
+    Route::apiResource("/post", "PostController")->except('index');
     Route::apiResource("/comment", "CommentController");
     Route::post("/qualify/{post}", "RatingController@qualify");
     Route::get("/average-rating/{post}", "RatingController@averageRating");

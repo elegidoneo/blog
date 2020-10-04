@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
-use Laravel\Sanctum\Sanctum;
+use Laravel\Passport\Passport;
 use Mockery\MockInterface;
 use Tests\TestCase;
 
@@ -26,7 +26,7 @@ class PostControllerTest extends TestCase
      */
     public function caseOne()
     {
-        Sanctum::actingAs(
+        Passport::actingAs(
             factory(User::class)->make()
         );
         $response = $this->getJson("/api/post");
@@ -40,7 +40,7 @@ class PostControllerTest extends TestCase
      */
     public function caseTwo()
     {
-        Sanctum::actingAs(
+        Passport::actingAs(
             factory(User::class)->make()
         );
         $response = $this->getJson("/api/post?pages=20");
@@ -55,7 +55,7 @@ class PostControllerTest extends TestCase
      */
     public function caseThree()
     {
-        Sanctum::actingAs(
+        Passport::actingAs(
             factory(User::class)->create()
         );
         $response = $this->getJson("/api/post?pages=20&title=dolor");
@@ -71,7 +71,7 @@ class PostControllerTest extends TestCase
     public function caseFour()
     {
         Notification::fake();
-        Sanctum::actingAs(
+        Passport::actingAs(
             $user = factory(User::class)->create()
         );
         Storage::fake('public');
@@ -96,7 +96,7 @@ class PostControllerTest extends TestCase
     public function caseFive()
     {
         Notification::fake();
-        Sanctum::actingAs(
+        Passport::actingAs(
             factory(User::class)->make()
         );
         Storage::fake('public');
@@ -118,7 +118,7 @@ class PostControllerTest extends TestCase
      */
     public function caseSix()
     {
-        Sanctum::actingAs(
+        Passport::actingAs(
             factory(User::class)->create()
         );
         $post = factory(Post::class)->create();
@@ -134,7 +134,7 @@ class PostControllerTest extends TestCase
     public function caseSeven()
     {
         Notification::fake();
-        Sanctum::actingAs(
+        Passport::actingAs(
             factory(User::class)->make()
         );
         Storage::fake('public');
@@ -159,7 +159,7 @@ class PostControllerTest extends TestCase
     public function caseEight()
     {
         Notification::fake();
-        Sanctum::actingAs(
+        Passport::actingAs(
             $user = factory(User::class)->create()
         );
         Storage::fake('public');
@@ -187,7 +187,7 @@ class PostControllerTest extends TestCase
     public function caseNine()
     {
         Notification::fake();
-        Sanctum::actingAs(
+        Passport::actingAs(
             $user = factory(User::class)->create()
         );
         Storage::fake('public');
@@ -211,7 +211,7 @@ class PostControllerTest extends TestCase
     public function caseTen()
     {
         Notification::fake();
-        Sanctum::actingAs(
+        Passport::actingAs(
             factory(User::class)->make()
         );
         $post = factory(Post::class)->create();
@@ -229,7 +229,7 @@ class PostControllerTest extends TestCase
         Notification::fake();
         $user = factory(User::class)->states(["administrator", "active"])->create();
         $user->createToken("test");
-        Sanctum::actingAs($user);
+        Passport::actingAs($user);
         $post = factory(Post::class)->create([
             "user_id" => $user->id,
         ]);

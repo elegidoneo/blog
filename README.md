@@ -13,6 +13,18 @@ Nota: cambiar el nombre de .env-example a .env
 - composer update
 - php artisan key:generate
 - php artisan migrate
+- php artisan passport:install --uuids
+
+Al instante la aplicacion le va a proporcionar el Passport grant client que tiene:
+- Client ID
+- Client secret
+
+Copiar las claves en en .env en las variables:
+PASSPORT_PERSONAL_ACCESS_TOKEN_ID
+PASSPORT_PERSONAL_ACCESS_TOKEN_SECRET
+
+Luego ejecutas estos comandos
+
 - php artisan db:seed
 - php artisan serve
 

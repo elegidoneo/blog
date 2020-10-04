@@ -7,10 +7,8 @@ use App\Notifications\UpdateUserNotification;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Validation\UnauthorizedException;
-use Laravel\Sanctum\Sanctum;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class UserControllerTest extends TestCase
@@ -23,7 +21,7 @@ class UserControllerTest extends TestCase
      */
     public function caseOne()
     {
-        Sanctum::actingAs(
+        Passport::actingAs(
             $user = factory(User::class)->states("administrator")->create()
         );
         $user->createToken("test");
@@ -38,7 +36,7 @@ class UserControllerTest extends TestCase
      */
     public function caseTwo()
     {
-        Sanctum::actingAs(
+        Passport::actingAs(
             $user = factory(User::class)->states("administrator")->create()
         );
         factory(User::class, 20)->create();
@@ -55,7 +53,7 @@ class UserControllerTest extends TestCase
      */
     public function caseThree()
     {
-        Sanctum::actingAs(
+        Passport::actingAs(
             $user = factory(User::class)->states("administrator")->create()
         );
         factory(User::class, 20)->create();
@@ -112,7 +110,7 @@ class UserControllerTest extends TestCase
      */
     public function caseSix()
     {
-        Sanctum::actingAs(
+        Passport::actingAs(
             $user = factory(User::class)->create()
         );
         $response = $this->getJson("/api/user/" . $user->id);
@@ -127,7 +125,7 @@ class UserControllerTest extends TestCase
     public function caseSeven()
     {
         Notification::fake();
-        Sanctum::actingAs(
+        Passport::actingAs(
             $user = factory(User::class)->create()
         );
         $response = $this->patchJson("/api/user/" . $user->id, [
@@ -144,7 +142,7 @@ class UserControllerTest extends TestCase
      */
     public function caseEight()
     {
-        Sanctum::actingAs(
+        Passport::actingAs(
             $user = factory(User::class)->create()
         );
         $response = $this->deleteJson("/api/user/" . $user->id);
@@ -160,7 +158,7 @@ class UserControllerTest extends TestCase
      */
     public function caseNine()
     {
-        Sanctum::actingAs(
+        Passport::actingAs(
             $user = factory(User::class)->create()
         );
         $user->createToken("test");
@@ -175,7 +173,7 @@ class UserControllerTest extends TestCase
      */
     public function caseTen()
     {
-        Sanctum::actingAs(
+        Passport::actingAs(
             factory(User::class)->create()
         );
         $user = factory(User::class)->create();
@@ -191,7 +189,7 @@ class UserControllerTest extends TestCase
     public function caseEleven()
     {
         Notification::fake();
-        Sanctum::actingAs(
+        Passport::actingAs(
             factory(User::class)->create()
         );
         $user = factory(User::class)->create();
@@ -209,7 +207,7 @@ class UserControllerTest extends TestCase
      */
     public function caseTwelve()
     {
-        Sanctum::actingAs(
+        Passport::actingAs(
             factory(User::class)->create()
         );
         $user = factory(User::class)->create();

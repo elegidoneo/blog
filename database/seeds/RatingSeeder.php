@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Rating;
 use Illuminate\Database\Seeder;
 
 class RatingSeeder extends Seeder
@@ -11,6 +12,6 @@ class RatingSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(Rating::class, 100)->create();
     }
 }
