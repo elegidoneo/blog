@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::post("/login", "Auth\LoginController@login");
 Route::post("/user", "UserController@store");
-Route::get("/post", "PostController@index");
+Route::apiResource("/post", "PostController")->only('index', "show");
 Route::middleware('auth:api')->group(function () {
     Route::apiResource("/user", "UserController")->except("store");
-    Route::apiResource("/post", "PostController")->except('index');
+    Route::apiResource("/post", "PostController")->except('index', "show");
     Route::apiResource("/comment", "CommentController");
     Route::post("/qualify/{post}", "RatingController@qualify");
     Route::get("/average-rating/{post}", "RatingController@averageRating");
